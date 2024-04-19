@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Discount E-Commerce Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* scrollable for #cart-div */
+    #cart-div {
+      height: 650px;
+      overflow-y: auto;
+    }
+
+    /* scrollable for #product-div to ensure it's also individually scrollable if needed */
+    #product-div {
+      height: 650px; /* Adjust height as per your layout needs */
+      overflow-y: auto;
+    }
+
+    /* Sticky header styles for both tables */
+    .cart-table thead th,
+    .product-table thead th {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 2; /* Slightly higher to ensure it remains on top */
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <!-- cart -->
+      <div class="col-md-4" id="cart-div">
+        <table class="table table-bordered cart-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>ID</th>
+              <th>Unit Price in Use</th>
+              <th>Quantity</th>
+              <th>sub total</th>
+            </tr>
+          </thead>
+          <tbody id="cart-body">
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <td colspan="6" style="text-align: right;">
+                <strong>Total Unique Products:</strong> <span id="total-unique-products">0</span> |
+                <strong>Total Quantity:</strong> <span id="total-quantity">0</span> |
+                <strong>Total Amount:</strong> $<span id="total-amount">0.00</span>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <button id="export-cart" class="btn btn-success mt-3" disabled>
+          Export Cart
+        </button>
+      </div>
+
+      <!-- products -->
+      <div class="col-md-8" id="product-div">
+        <table class="table table-bordered product-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>ID</th>
+              <th>Description</th>
+              <th>Unit Price Std.</th>
+              <th>Unit Price +/-</th>
+              <th>+/- in %</th>
+              <th>Unit Price in Use</th>
+              <th>Quantity</th>
+              <th>Add Into Cart</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example row -->
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>1</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>2</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>3</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>4</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>5</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>6</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>7</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>8</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>9</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>10</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>11</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+            <tr>
+              <td><img src="https://via.placeholder.com/50" alt="Product Image"></td>
+              <td>12</td>
+              <td>Description of Product 1</td>
+              <td class="unit-price-std">12.34</td>
+              <td><input type="number" step="0.01" class="form-control price-change" placeholder="Changes"></td>
+              <td class="percent-change">0%</td>
+              <td class="price-in-use">12.34</td>
+              <td><input type="number" class="form-control quantity" min="0" placeholder="Quantity"></td>
+              <td><button class="btn btn-primary add-cart" disabled>Add to Cart</button></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
